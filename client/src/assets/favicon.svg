@@ -1,0 +1,23 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="favGrad" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4FC3F7"/>
+      <stop offset="100%" stop-color="#0288D1"/>
+    </linearGradient>
+  </defs>
+  <!-- Outer circle -->
+  <circle cx="24" cy="24" r="22" stroke="url(#favGrad)" stroke-width="2.5" fill="none"/>
+  <!-- Middle circle -->
+  <circle cx="24" cy="24" r="15" stroke="url(#favGrad)" stroke-width="2" fill="none"/>
+  <!-- Inner circle -->
+  <circle cx="24" cy="24" r="8.5" stroke="url(#favGrad)" stroke-width="1.5" fill="none"/>
+  <!-- Crosshair lines -->
+  <line x1="24" y1="0" x2="24" y2="8" stroke="url(#favGrad)" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="24" y1="40" x2="24" y2="48" stroke="url(#favGrad)" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="0" y1="24" x2="8" y2="24" stroke="url(#favGrad)" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="40" y1="24" x2="48" y2="24" stroke="url(#favGrad)" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Person head -->
+  <circle cx="24" cy="19.5" r="4" fill="url(#favGrad)"/>
+  <!-- Person body -->
+  <path d="M16.5 31C16.5 26.5 19.5 24 24 24C28.5 24 31.5 26.5 31.5 31" stroke="url(#favGrad)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+</svg>
