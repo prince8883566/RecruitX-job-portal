@@ -15,20 +15,29 @@ import { clerkMiddleware } from '@clerk/express'
 const app = express()
 
 // Middlewares
+// Replace the cors middleware block with this:
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://recruitx-job-portal-frontend.onrender.com'
+];
+
 app.use(
   cors({
-    origin: [
-      'http://localhost:5173',
-      'https://recruitx-job-portal-frontend.onrender.com'
-    ],
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization', 'clerk-db-jwt']
   })
 );
 
-app.use(express.json())
-app.use(clerkMiddleware())
+// Explicitly handle preflight OPTIONS for all routes
+app.options('*', cors());
 
 // Routes
 app.get('/', (req, res) => res.send("API Working"))
