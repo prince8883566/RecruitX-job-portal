@@ -3,7 +3,39 @@ import JobApplication from "../models/JobApplication.js"
 import User from "../models/User.js"
 import { v2 as cloudinary } from "cloudinary"
 
-// Get User Data
+
+// Create User (fallback when webhook doesn't fire)
+export const createUser = async (req, res) => {
+
+    const userId = req.auth.userId
+
+    try {
+
+        // Check if user already exists
+        const existingUser = await User.findById(userId)
+        if (existingUser) {
+            return res.json({ success: true, user: existingUser })
+        }
+
+        const { name, email, image } = req.body
+
+        const userData = {
+            _id: userId,
+            name: name || 'User',
+            email: email,
+            image: image || '',
+            resume: ''
+        }
+
+        const newUser = await User.create(userData)
+        res.json({ success: true, user: newUser })
+
+    } catch (error) {
+        res.json({ success: false, message: error.message })
+    }
+
+}
+
 export const getUserData = async (req, res) => {
 
     const userId = req.auth.userId
@@ -96,7 +128,9 @@ export const updateUserResume = async (req, res) => {
         const userData = await User.findById(userId)
 
         if (resumeFile) {
-            const resumeUpload = await cloudinary.uploader.upload(resumeFile.path)
+            const resumeUpload = await cloudinary.uploader.upload(resumeFile.path, {
+                resource_type: 'raw'
+            })
             userData.resume = resumeUpload.secure_url
         }
 

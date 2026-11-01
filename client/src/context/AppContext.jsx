@@ -74,9 +74,28 @@ export const AppContextProvider = (props) => {
 
             if (data.success) {
                 setUserData(data.user)
-            } else (
-                toast.error(data.message)
-            )
+            } else {
+                // If user not found in DB (webhook didn't fire), create them
+                if (data.message === 'User Not Found' && user) {
+                    try {
+                        const createRes = await axios.post(backendUrl + '/api/users/create', {
+                            name: (user.firstName || '') + ' ' + (user.lastName || ''),
+                            email: user.primaryEmailAddress?.emailAddress,
+                            image: user.imageUrl,
+                        }, { headers: { Authorization: `Bearer ${token}` } })
+
+                        if (createRes.data.success) {
+                            setUserData(createRes.data.user)
+                        } else {
+                            toast.error(createRes.data.message)
+                        }
+                    } catch (createError) {
+                        toast.error(createError.message)
+                    }
+                } else {
+                    toast.error(data.message)
+                }
+            }
 
         } catch (error) {
             toast.error(error.message)
